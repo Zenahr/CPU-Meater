@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/png" href="static/favicon.png"/>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <title>CPU-Meater</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@100&display=swap');  
+        
+        html, body {
+            font-family: 'Roboto', serif;
+            font-size: 12px;
+            background-color: #212121;
+            color: #fff;
+        }
+    </style>
+</head>
+<body>
+
+    <p>CPU Usage: <span id="cpu_usage">00.0</span>%</p>
+
+    <progress id='usage' max='100' value='0'></progress>
+
+    <script>
+        function fetch_cpu_usage() {
+            $.get('api/cpu', function(data) {
+                console.log(data);
+                $('#cpu_usage').html(data)
+                $('#usage').val(data)
+
+            })
+        }
+
+        setInterval(function() {
+            fetch_cpu_usage();
+        }, 1000);
+
+    </script>
+
+</body>
+</html>
