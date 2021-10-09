@@ -1,44 +1,79 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="icon" type="image/png" href="static/favicon.png"/>
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <title>CPU-Meater</title>
-    <style>
-        @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@100&display=swap');  
-        
-        html, body {
-            font-family: 'Roboto', serif;
-            font-size: 12px;
-            background-color: #212121;
-            color: #fff;
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CPU Meater</title>
+  <link rel="icon" type="image/png" href="static/favicon.png"/>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"
+    integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
 </head>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@100&display=swap');
+
+  html,
+  body {
+    font-family: 'Roboto', serif;
+    font-size: 12px;
+    background-color: #212121;
+    color: #fff;
+  }
+
+  label {
+    margin-right: 8px;
+    margin-left: 8px;
+  }
+
+  progress {
+    margin-top: 12px;
+    background: none;
+  }
+
+  progress::-webkit-progress-bar {
+    height: 11px;
+    width: 650px;
+    background-color: #CCC;
+    border-radius: 15px;
+    box-shadow: 0px 0px 6px #777 inset;
+  }
+
+  progress::-webkit-progress-value {
+    background: rgb(0, 217, 255);
+    border-radius: 15px;
+    box-shadow: 0px 0px 6px #777 inset;
+    transition: all 5.5s;
+  }
+</style>
+
 <body>
 
-    <p>CPU Usage: <span id="cpu_usage">00.0</span>%</p>
+  <label>CPU: <span id="usage-text">00</span>%</label>
+  <progress id="usage" max="100" value="0"></progress>
 
-    <progress id='usage' max='100' value='0'></progress>
+  <script>
+      function refresh() {
+        $.get("/api/cpu", function (data) {
+          console.log(data);
+          $("#usage").val(data);
+          var newValue = parseFloat(data);
+          var currentNumber = parseFloat($("#usage-text").text());
+          $({ numberValue: currentNumber }).animate({ numberValue: newValue }, {
+            duration: 3000,
+            easing: 'linear',
+            step: function (now) {
+              $('#usage-text').text(now.toFixed(0).padStart(2, '0'));
+            }
+          });
+        });
+      }
 
-    <script>
-        function fetch_cpu_usage() {
-            $.get('api/cpu', function(data) {
-                console.log(data);
-                $('#cpu_usage').html(data)
-                $('#usage').val(data)
-
-            })
-        }
-
-        setInterval(function() {
-            fetch_cpu_usage();
-        }, 1000);
-
-    </script>
+      setInterval(function () {
+        refresh()
+      }, 1000);
+  </script>
 
 </body>
+
 </html>
