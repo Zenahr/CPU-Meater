@@ -1,6 +1,10 @@
 # CPU Meater
 
-Watch the YouTube guide or download the source code and tinker with it yourself!
+Watch the [YouTube guide](#) or download the source code and tinker with it yourself!
+
+## Screenshot
+
+![](demo.gif)
 
 ## Installation
 
