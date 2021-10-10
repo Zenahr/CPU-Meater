@@ -1,6 +1,6 @@
 # CPU Meater
 
-Watch the [YouTube guide](#) or download the source code and tinker with it yourself!
+Watch the [YouTube guide](https://youtu.be/nNQGmO2RLe4) or download the source code and tinker with it yourself!
 
 ## Screenshot
 
@@ -35,6 +35,6 @@ To get the code identical to the YouTube guide, do this:
 git checkout eba01de4f53ddadd0bcc9d0d177eda00ae1e0b17
 ```
 
-## Contribution
+## Contribute
 
 Enhancements, Forks and Contributions of any kind are welcome!
