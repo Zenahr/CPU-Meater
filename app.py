@@ -10,8 +10,12 @@ def hello():
     return render_template('index.html')
 
 @app.route('/api/cpu')
-def api():
+def api_cpu():
     return str(psutil.cpu_percent(interval=0.1))
+
+@app.route('/api/ram')
+def api_ram():
+    return str(psutil.virtual_memory().percent)
 
 if __name__ == '__main__':
     gui.run()

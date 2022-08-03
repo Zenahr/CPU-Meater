@@ -49,28 +49,40 @@
 
 <body>
 
-  <label>CPU: <span id="usage-text">00</span>%</label>
-  <progress id="usage" max="100" value="0"></progress>
+  <div>
+    <label>CPU: <span id="cpu-usage-text">00</span>%</label>
+    <progress id="cpu-usage" max="100" value="0"></progress>
+  </div>
 
+  <div>
+    <label>RAM: <span id="ram-usage-text">00</span>%</label>
+    <progress id="ram-usage" max="100" value="0"></progress>
+  </div>
+    
   <script>
-      function refresh() {
-        $.get("/api/cpu", function (data) {
-          console.log(data);
-          $("#usage").val(data);
-          var newValue = parseFloat(data);
-          var currentNumber = parseFloat($("#usage-text").text());
-          $({ numberValue: currentNumber }).animate({ numberValue: newValue }, {
-            duration: 3000,
-            easing: 'linear',
-            step: function (now) {
-              $('#usage-text').text(now.toFixed(0).padStart(2, '0'));
-            }
-          });
+
+    function getUsage(apiEndpoint, usageElementId, usageTextElementId) {
+      $.get(apiEndpoint, function (data) {
+        console.log(data);
+        $(usageElementId).val(data);
+        var newValue = parseFloat(data);
+        var currentNumber = parseFloat($(usageTextElementId).text());
+        $({ numberValue: currentNumber }).animate({ numberValue: newValue }, {
+          duration: 3000,
+          easing: 'linear',
+          step: function (now) {
+            $(usageTextElementId).text(now.toFixed(0).padStart(2, '0'));
+          }
         });
+      });
+    }
+      function getUsageAll() {
+        getUsage("/api/cpu", "#cpu-usage", "#cpu-usage-text");
+        getUsage("/api/ram", "#ram-usage", "#ram-usage-text");
       }
 
       setInterval(function () {
-        refresh()
+        getUsageAll()
       }, 1000);
   </script>
 
